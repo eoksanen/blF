@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './App.css';
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -9,7 +10,7 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState('')
   const [title, setTitle] = useState('') 
   const [author, setAuthor] = useState('') 
   const [url, setUrl] = useState('') 
@@ -56,6 +57,10 @@ setTimeout(() => {
       setUser(user)
       setUsername('')
       setPassword('')
+      
+      messageSetter(`welcome ${user.name}`,
+      'add')
+
     } catch (exception) {
       messageSetter('wrong credentials',
       'error')
@@ -82,11 +87,9 @@ setTimeout(() => {
       setUser(user)
       setUsername('')
       setPassword('')
-      if(res)
-      {
         messageSetter(`a new blog added by ${user.name} `,
-        'error')
-      }
+        'add')
+      
     } catch (exception) {
       messageSetter(exception.response.data.error,
       'error')
@@ -97,18 +100,21 @@ setTimeout(() => {
     if (message === null) {
       return null
     }
-  
+  else{
     return (
+    
       <div className={message[1]}>
         {message[0]}
       </div>
     )
+  }
   }
 
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={message} />
         <form onSubmit={handleLogin}>
         <div>
           username
