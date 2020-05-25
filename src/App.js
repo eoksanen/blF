@@ -4,6 +4,9 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import ShowName from './components/ShowName'
+import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,9 +14,8 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState('')
-  const [title, setTitle] = useState('') 
-  const [author, setAuthor] = useState('') 
-  const [url, setUrl] = useState('') 
+  const [loginVisible, setLoginVisible] = useState(false)
+
 
   useEffect(() => { 
     blogService.getAll().then(blogs =>
@@ -67,34 +69,31 @@ setTimeout(() => {
     }
   }
 
-  const handleCreate = async (event) => {
-    event.preventDefault()
+  const addBlog = async (blogObject) => {
 
-    const newBlog = 
-      {
-      title: title,
-      author: author,
-      url: url,
-      likes: 0
-      }
     try {
-      const res = await blogService.create(newBlog)
+      const returnedBlog = await blogService.create(blogObject)
+
+      const response = setBlogs(blogs.concat(returnedBlog))
+      messageSetter(`a new blog added by ${user.name} `,'add')
 
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-        messageSetter(`a new blog added by ${user.name} `,
-        'add')
-      
-    } catch (exception) {
-      messageSetter(exception.response.data.error,
-      'error')
-    }
+      } catch (exception) {
+
+        messageSetter('fefew','error')
+      }
+    /*
+    blogService
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        messageSetter(`a new blog added by ${user.name} `,'add')
+      })*/
   }
+  
+
 
   const Notification = ({message}) => {
     if (message === null) {
@@ -108,87 +107,76 @@ setTimeout(() => {
       </div>
     )
   }
-  }
+}
 
-  if (user === null) {
+
+  
+
+  const loginForm = () => {
+
+
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
     return (
+
       <div>
+        <div style={hideWhenVisible}>
         <h2>Log in to application</h2>
         <Notification message={message} />
-        <form onSubmit={handleLogin}>
-        <div>
-          username
-            <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <button onClick={() => setLoginVisible(true)}>log in</button>
         </div>
-        <div>
-          password
-            <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
+        <div style={showWhenVisible}>
+        <LoginForm    
+          handleSubmit ={handleLogin} 
+          username = {username} 
+          password = {password}
+          handleUsernameChange = {({ target }) => setUsername(target.value)} 
+          handlePasswordChange = {({ target }) => setPassword(target.value)}
+        />
+        <button onClick={() => setLoginVisible(false)}>cancel</button>
         </div>
-        <button type="submit">login</button>
-          
-        </form>
+
+
       </div>
+
+     )
+    }
+    const blogForm = () => (
+    <Togglable buttonLabel='add a new blog'>
+    <BlogForm createBlog={addBlog} />
+</Togglable>
+
     )
-  }
+
+ 
+
+ if(user){   
   if(user.name === undefined){user.name = "su"}
+ }
 
   return (
-    <div>
-      <h2>blogs</h2>
 
+    <div>
+
+      <h1>Blogs</h1>
       <Notification message={message} />
 
-    <ShowName name ={user.name} /><button onClick = {() => { 
-      window.localStorage.removeItem('loggedBlogappUser')
-      setUser(null)
-      }}>Log Out</button>
-        <br></br>
-        <h2>create new</h2>
-        <form onSubmit={handleCreate}>
-          <div>
-            title:
-              <input
-              type="text"
-              value={title}
-              name="Title"
-              onChange={({ target }) => setTitle(target.value)}
-              />
-          </div>
-          <div>
-            author:
-              <input
-              type="text"
-              value={author}
-              name="Author"
-              onChange={({ target }) => setAuthor(target.value)}
-              />
-          </div>
-          <div>
-            url:
-              <input
-              type="text"
-              value={url}
-              name="Url"
-              onChange={({ target }) => setUrl(target.value)}
-              />
-          </div>
-          <button type="submit">create</button>
-        </form>
-        <br></br>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
+    {user === null ?
+      loginForm() :
+      <div>
+        <p>{user.name} logged in</p>
+        {blogForm()}
+      </div>
+    }
+  
+ 
+  <br></br>
+{blogs.map(blog => {
+  return (
+  <Blog key={blog.id} blog={blog} />
+)})}
+</div>
   )
 }
 
