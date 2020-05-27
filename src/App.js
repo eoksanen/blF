@@ -19,7 +19,7 @@ const App = () => {
 
   useEffect(() => { 
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort( (a,b)=> b.likes - a.likes ))
     )  
   }, [])
 
@@ -173,8 +173,9 @@ setTimeout(() => {
  
   <br></br>
 {blogs.map(blog => {
+  console.log(blog)
   return (
-  <Blog key={blog.id} blog={blog} />
+  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs}/>
 )})}
 </div>
   )
