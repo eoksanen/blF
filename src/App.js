@@ -166,6 +166,10 @@ setTimeout(() => {
       loginForm() :
       <div>
         <p>{user.name} logged in</p>
+        <button onClick = {() => { 
+      window.localStorage.removeItem('loggedBlogappUser')
+      setUser(null)
+      }}>Log Out</button>
         {blogForm()}
       </div>
     }
@@ -174,8 +178,16 @@ setTimeout(() => {
   <br></br>
 {blogs.map(blog => {
   console.log(blog)
+  let removeButtonVisibility = null
+  if(user){  
+
+    if( user.userID.localeCompare(blog.user.id) === 0 )     removeButtonVisibility  = true
+    console.log('userid', user.userID)
+    console.log('blog', blog.user.id)
+    console.log(removeButtonVisibility)}
+
   return (
-  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs}/>
+  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} removeButtonVisibility={removeButtonVisibility}/>
 )})}
 </div>
   )

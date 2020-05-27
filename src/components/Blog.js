@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, blogs, setBlogs }) => {
+const Blog = ({ blog, blogs, setBlogs, removeButtonVisibility }) => {
   const [visible, setVisible] = useState(false)
 
   const showWhenVisible = { display: visible ? '' : 'none' }
+  const showRemoveButton = { display: removeButtonVisibility ? '' : 'none' }
 
   const blogStyle = {
     paddingTop: 10,
@@ -32,7 +33,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
       console.log('rblogs ',rBlogs)
         setBlogs(blogs.map(bl => bl.id !== blog.id ? blog : rBlogs)) 
         }}>Like</button>
-      <button onClick={() => {
+      <button style = {showRemoveButton} onClick={() => {
         blogService.remove(blog.id)
         setBlogs(blogs.filter(n => n.id !== blog.id))      
         }}>REmove</button>
