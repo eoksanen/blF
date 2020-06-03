@@ -7,6 +7,7 @@ import ShowName from './components/ShowName'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable';
+import PropTypes from 'prop-types'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -179,7 +180,7 @@ setTimeout(() => {
 {blogs.map(blog => {
   console.log(blog)
   let removeButtonVisibility = null
-  if(user){  
+  if(user && blog.user){  
 
     if( user.userID.localeCompare(blog.user.id) === 0 )     removeButtonVisibility  = true
     console.log('userid', user.userID)

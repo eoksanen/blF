@@ -23,15 +23,28 @@ const Blog = ({ blog, blogs, setBlogs, removeButtonVisibility }) => {
       <div style={showWhenVisible}> 
       URL: {blog.url}
       <br></br>
-      LIKES: {blog.likes} <button onClick={() => { 
-        const rBlogs = blogService.update(blog.id,{
+      LIKES: {blog.likes} <button onClick={async() => { 
+        let rBlog = await  blogService.update(blog.id,{
         title: blog.title,
         author: blog.author,
         url: blog.url,
         likes: blog.likes + 1
       })
-      console.log('rblogs ',rBlogs)
-        setBlogs(blogs.map(bl => bl.id !== blog.id ? blog : rBlogs)) 
+      //.then(rBlog => {
+        //  setBlogs(blogs.map(bl => bl.id !== blog.id ? bl : rBlog))})
+
+/*
+      rBlog =  {
+        id: blog.id,
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes + 1
+      }
+*/
+
+
+        setBlogs(blogs.map(bl => bl.id !== blog.id ? bl : rBlog)) 
         }}>Like</button>
       <button style = {showRemoveButton} onClick={() => {
         blogService.remove(blog.id)
