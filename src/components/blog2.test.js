@@ -17,13 +17,13 @@ test('when like button presse4d twice, amount of likes rices by two ', () => {
     title: 'Component testing',
     author: 'M.S.TT',
     url: 'https://wWw',
-    likes: 10
+    likes: 11
   }
   ]
   const mockHandler = jest.fn()
 
   const component = render(
-    <Blog blog={blogs[0]} blogs={blogs} setBlogs={mockHandler}  />
+    <Blog blog={blogs[0]} handleLike={mockHandler}  />
   )
 
 

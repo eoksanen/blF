@@ -93,6 +93,19 @@ setTimeout(() => {
         messageSetter(`a new blog added by ${user.name} `,'add')
       })*/
   }
+
+
+  const handleLike = async (blog) => {
+
+    let rBlog = await  blogService.update(blog.id,{
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1
+    })
+    setBlogs(blogs.map(bl => bl.id !== blog.id ? bl : rBlog)) 
+
+  }
   
 
 
@@ -188,7 +201,7 @@ setTimeout(() => {
     console.log(removeButtonVisibility)}
 
   return (
-  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} removeButtonVisibility={removeButtonVisibility}/>
+  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} removeButtonVisibility={removeButtonVisibility} handleLike={handleLike}/>
 )})}
 </div>
   )
