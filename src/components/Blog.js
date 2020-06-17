@@ -15,12 +15,12 @@ const Blog = ({ blog, blogs, setBlogs, removeButtonVisibility }) => {
     marginBottom: 5
   }
   return (
-  <div style={blogStyle}>
+  <div style={blogStyle} className='blog'>
     {blog.title} {blog.author} <button onClick = {() => visible ? setVisible(false) : setVisible(true)}>
   {visible ? "hide" : "view" }
     </button>
 
-      <div style={showWhenVisible}> 
+      <div style={showWhenVisible} className='moreInfo'> 
       URL: {blog.url}
       <br></br>
       LIKES: {blog.likes} <button onClick={async() => { 
