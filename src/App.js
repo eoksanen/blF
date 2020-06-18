@@ -106,6 +106,12 @@ setTimeout(() => {
     setBlogs(blogs.map(bl => bl.id !== blog.id ? bl : rBlog)) 
 
   }
+
+  const handleRemove = async (id) => {
+
+      blogService.remove(id)
+      setBlogs(blogs.filter(n => n.id !== id))      
+  }
   
 
 
@@ -201,7 +207,7 @@ setTimeout(() => {
     console.log(removeButtonVisibility)}
 
   return (
-  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} removeButtonVisibility={removeButtonVisibility} handleLike={handleLike}/>
+  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} removeButtonVisibility={removeButtonVisibility} handleLike={handleLike} handleRemove={handleRemove}/>
 )})}
 </div>
   )
