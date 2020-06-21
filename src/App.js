@@ -95,7 +95,9 @@ setTimeout(() => {
   }
 
 
-  const handleLike = async (blog) => {
+  const handleLikeOf = async (id) => {
+
+    const blog = blogs.find(b => b.id === id)
 
     let rBlog = await  blogService.update(blog.id,{
       title: blog.title,
@@ -107,7 +109,7 @@ setTimeout(() => {
 
   }
 
-  const handleRemove = async (id) => {
+  const handleRemoveOf = async (id) => {
 
       blogService.remove(id)
       setBlogs(blogs.filter(n => n.id !== id))      
@@ -207,7 +209,7 @@ setTimeout(() => {
     console.log(removeButtonVisibility)}
 
   return (
-  <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} removeButtonVisibility={removeButtonVisibility} handleLike={handleLike} handleRemove={handleRemove}/>
+  <Blog key={blog.id} blog={blog} removeButtonVisibility={removeButtonVisibility} handleLike={() => handleLikeOf(blog.id)} handleRemove={() => handleRemoveOf(blog.id)}/>
 )})}
 </div>
   )

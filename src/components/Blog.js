@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import blogService from '../services/blogs'
 
 const Blog = ({ blog, removeButtonVisibility, handleLike, handleRemove }) => {
   const [visible, setVisible] = useState(false)
@@ -23,9 +22,9 @@ const Blog = ({ blog, removeButtonVisibility, handleLike, handleRemove }) => {
       <div style={showWhenVisible} className='moreInfo'> 
       URL: {blog.url}
       <br></br>
-      LIKES: {blog.likes} <button onClick={handleLike(blog)}
+      LIKES: {blog.likes} <button onClick={handleLike}
         >Like</button>
-      <button style = {showRemoveButton} onClick={handleRemove(blog.id)}>REmove</button>
+      <button style = {showRemoveButton} onClick={handleRemove}>REmove</button>
       </div>
 
   </div>
