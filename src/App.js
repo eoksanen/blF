@@ -75,6 +75,9 @@ setTimeout(() => {
     try {
       const returnedBlog = await blogService.create(blogObject)
 
+      console.log('SENDED blog: ',blogObject)
+      console.log('Returned BLog: ',returnedBlog)
+
       const response = setBlogs(blogs.concat(returnedBlog))
       messageSetter(`a new blog added by ${user.name} `,'add')
 
@@ -83,7 +86,7 @@ setTimeout(() => {
       )
       } catch (exception) {
 
-        messageSetter('fefew','error')
+        messageSetter('error','error')
       }
     /*
     blogService
@@ -206,7 +209,7 @@ setTimeout(() => {
     if( user.userID.localeCompare(blog.user.id) === 0 )     removeButtonVisibility  = true
     console.log('userid', user.userID)
     console.log('blog', blog.user.id)
-    console.log(removeButtonVisibility)}
+    console.log('removebutton visibility: ',removeButtonVisibility)}
 
   return (
   <Blog key={blog.id} blog={blog} removeButtonVisibility={removeButtonVisibility} handleLike={() => handleLikeOf(blog.id)} handleRemove={() => handleRemoveOf(blog.id)}/>
