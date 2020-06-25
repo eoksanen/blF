@@ -11,10 +11,10 @@ describe('Blog app', () => {
   })
   it('user can log in', () => {
     cy.contains('log in').click()
-    cy.get('#username').type('root')
-    cy.get('#password').type('sekret')
+    cy.get('#username').type('mluukkai')
+    cy.get('#password').type('salainen')
     cy.get('#login-button').click()
-    cy.contains('Blogs')
+    cy.contains('Matti')
     })
     it('login form can be opened', function() {
       cy.contains('log in').click()
@@ -47,13 +47,25 @@ describe('Blog app', () => {
   })
 
   it('blog can be liked', function() {
-    cy.contains('info').click()
-    cy.contains('like').click()
+    cy.contains('new blog').click()
+    cy.get('#title').type('a blog created by cypress')
+    cy.get('#author').type('by cypress')
+    cy.get('#url').type('www.cypress.com')
+    cy.contains('save').click()
+    cy.contains('a blog created by cypress')
+    cy.contains('view').click()
+    cy.contains('Like').click()
   })
 
   it('blogs created user can remove them', function() {
-    cy.contains('info').click()
-    cy.contains('remove').click()
+    cy.contains('new blog').click()
+    cy.get('#title').type('a blog created by cypress')
+    cy.get('#author').type('by cypress')
+    cy.get('#url').type('www.cypress.com')
+    cy.contains('save').click()
+    cy.contains('a blog created by cypress')
+    cy.contains('view').click()
+    cy.contains('REmove').click()
   })
 })
 
